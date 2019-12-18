@@ -1,44 +1,52 @@
-import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { increment, decrement } from '../actions';
+import React from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { increment, decrement, changeText } from '../actions';
 
-class Counter extends Component {
-    incrementIfOdd = () => {
+export default () => {
+    const count = useSelector(state => state.count);
+    const test = useSelector(state => state.test);
+    const dispatch = useDispatch()
+
+    const incrementIfOdd = () => {
         // Stretch Problem: Implement an increment function that
         // only increments if the counter value is odd
-        if (this.props.count % 2 !== 0) {this.props.increment()}
+        if (count % 2 !== 0) {dispatch(increment())}
     };
 
-    incrementAsync = () => {
+    const incrementAsync = () => {
         // Stretch Problem: Implement an increment function that
         // increments after waiting for one second
-        setTimeout(() => this.props.increment(), 1000)
+        setTimeout(() => dispatch(increment()), 1000)
     };
 
-    render() {
         // Fill in the two button onClick methods
         // Upon clicking these buttons, the count
         // should decrement or increment accordingly
         return (
             <p>
-                Clicked: {this.props.count} times
-                <button onClick={() => {this.props.increment()}}>
+                Clicked: {count} times
+                <input 
+                    name="test"
+                    type="text"
+                    value={test}
+                    onChange={e => dispatch(changeText(e.target.value))}
+                />
+                <button onClick={() => dispatch(increment())}>
                     +
                 </button>
-                <button onClick={() => {this.props.decrement()}}>
+                <button onClick={() => dispatch(decrement())}>
                     -
                 </button>
                  {/* Uncomment these button tags if you got
                 around to implementing the extra credit functions */}
-                <button onClick={this.incrementIfOdd}>
+                <button onClick={incrementIfOdd}>
                     Increment if odd
                 </button>
-                <button onClick={this.incrementAsync}>
+                <button onClick={incrementAsync}>
                     Increment async
                 </button> 
             </p>
         );
-    }
 }
 
 // The mapStateToProps function specifies which portion of the
@@ -47,15 +55,15 @@ class Counter extends Component {
 // this component receives the whole state. In a more complex
 // redux application, though, it would receive only the relevant
 // parts it needs from the state object.
-const mapStateToProps = (state) => {
-    return {
-        count: state.count
-    };
-};
+// const mapStateToProps = (state) => {
+//     return {
+//         count: state.count
+//     };
+// };
 
 // The connect function is called in order to make this component aware
 // of the rest of the redux architecture. Without this, this component
 // is only a dumb React component. We pass in all of the functions that
 // are reliant on Redux, along with the component itself, so that Redux
 // makes itself known to this component.
-export default connect(mapStateToProps, { increment, decrement })(Counter);
+// export default connect(mapStateToProps, { increment, decrement })(Counter);

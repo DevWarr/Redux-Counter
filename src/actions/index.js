@@ -1,5 +1,6 @@
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
+export const TEXT_CHANGE = "TEXT_CHANGE"
 
 // Our action creators will return
 // an action packet that our reducer will
@@ -22,3 +23,11 @@ export const decrement = () => {
     type: DECREMENT,
   }
 };
+
+export const changeText = newText => {
+  console.log(newText)
+  return {
+    type: TEXT_CHANGE,
+    payload: newText
+  }
+}
